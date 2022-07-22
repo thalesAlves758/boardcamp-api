@@ -21,6 +21,19 @@ async function getCategoryByName(name) {
   return category;
 }
 
+async function getCategoryById(id) {
+  const {
+    rows: [category],
+  } = await connection.query(
+    `
+    SELECT * FROM categories WHERE id = $1
+  `,
+    [id]
+  );
+
+  return category;
+}
+
 async function createCategory({ name }) {
   await connection.query(
     `
@@ -30,4 +43,4 @@ async function createCategory({ name }) {
   );
 }
 
-export { getAllCategories, getCategoryByName, createCategory };
+export { getAllCategories, getCategoryByName, getCategoryById, createCategory };
