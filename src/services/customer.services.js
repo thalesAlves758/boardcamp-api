@@ -53,7 +53,7 @@ async function createCustomer({ name, phone, cpf, birthday }) {
 async function updateCustomer(id, { name, phone, cpf, birthday }) {
   await connection.query(
     `
-    UPDATE FROM customers
+    UPDATE customers
     SET name = $1, phone = $2, cpf = $3, birthday = $4
     WHERE id = $5
   `,

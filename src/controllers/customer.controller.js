@@ -67,7 +67,7 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   const { name, phone, cpf, birthday } = req.body;
 
   const validation = customerSchema.validate({ name, phone, cpf, birthday });
@@ -80,7 +80,7 @@ async function update(req, res) {
   try {
     const customerExists = await getCustomerByCpf(cpf);
 
-    if (customerExists) {
+    if (customerExists && customerExists.id !== id) {
       res.sendStatus(httpStatus.CONFLICT);
       return;
     }
