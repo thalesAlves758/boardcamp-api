@@ -8,10 +8,10 @@ import {
 import httpStatus from '../utils/httpStatus.js';
 
 async function index(req, res) {
-  const { name, offset, limit } = req.query;
+  const { name, offset, limit, order, desc } = req.query;
 
   try {
-    const games = await getAllGames({ name, offset, limit });
+    const games = await getAllGames({ name, offset, limit, order, desc });
 
     res.send(games);
   } catch (error) {

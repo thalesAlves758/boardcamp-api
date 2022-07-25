@@ -1,6 +1,6 @@
 import connection from '../config/database/pg.js';
 
-async function getAllCustomers({ cpf = '', offset, limit }) {
+async function getAllCustomers({ cpf = '', offset, limit, order, desc }) {
   const OFFSET_DEFAULT = 0;
   const LIMIT_DEFAULT = 1000;
 
@@ -8,6 +8,7 @@ async function getAllCustomers({ cpf = '', offset, limit }) {
     `
     SELECT *, birthday::VARCHAR FROM customers
     WHERE cpf LIKE $1
+    ORDER BY ${order || 'id'} ${desc ? 'DESC' : 'ASC'}
     OFFSET $2
     LIMIT $3
   `,

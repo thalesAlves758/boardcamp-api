@@ -2,7 +2,14 @@ import dayjs from 'dayjs';
 
 import connection from '../config/database/pg.js';
 
-async function getRentals({ customerId = null, gameId = null, offset, limit }) {
+async function getRentals({
+  customerId = null,
+  gameId = null,
+  offset,
+  limit,
+  order,
+  desc,
+}) {
   const OFFSET_DEFAULT = 0;
   const LIMIT_DEFAULT = 1000;
 
@@ -17,6 +24,7 @@ async function getRentals({ customerId = null, gameId = null, offset, limit }) {
     JOIN (
       SELECT id, name FROM customers
     ) c ON r."customerId" = c.id
+    ORDER BY ${order || 'id'} ${desc ? 'DESC' : 'ASC'}
     OFFSET $1
     LIMIT $2
   `,

@@ -1,12 +1,13 @@
 import connection from '../config/database/pg.js';
 
-async function getAllCategories({ offset, limit }) {
+async function getAllCategories({ offset, limit, order, desc }) {
   const OFFSET_DEFAULT = 0;
   const LIMIT_DEFAULT = 1000;
 
   const { rows: categories } = await connection.query(
     `
     SELECT * FROM categories
+    ORDER BY ${order || 'id'} ${desc ? 'DESC' : 'ASC'}
     OFFSET $1
     LIMIT $2
   `,

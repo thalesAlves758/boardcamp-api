@@ -1,6 +1,6 @@
 import connection from '../config/database/pg.js';
 
-async function getAllGames({ name = '', offset, limit }) {
+async function getAllGames({ name = '', offset, limit, order, desc }) {
   const OFFSET_DEFAULT = 0;
   const LIMIT_DEFAULT = 1000;
 
@@ -10,6 +10,7 @@ async function getAllGames({ name = '', offset, limit }) {
     JOIN categories c
     ON g."categoryId" = c.id
     WHERE g.name ILIKE $1
+    ORDER BY ${order || 'id'} ${desc ? 'DESC' : 'ASC'}
     OFFSET $2
     LIMIT $3
   `,
