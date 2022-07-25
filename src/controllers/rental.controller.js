@@ -13,9 +13,9 @@ import {
 import httpStatus from '../utils/httpStatus.js';
 
 async function index(req, res) {
-  const { customerId, gameId } = req.query;
+  const { customerId, gameId, offset, limit } = req.query;
 
-  const rentals = await getRentals({ customerId, gameId });
+  const rentals = await getRentals({ customerId, gameId, offset, limit });
 
   res.send(rentals);
 }

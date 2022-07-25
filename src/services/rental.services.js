@@ -2,7 +2,10 @@ import dayjs from 'dayjs';
 
 import connection from '../config/database/pg.js';
 
-async function getRentals({ customerId = null, gameId = null }) {
+async function getRentals({ customerId = null, gameId = null, offset, limit }) {
+  const OFFSET_DEFAULT = 0;
+  const LIMIT_DEFAULT = 1000;
+
   const { rows } = await connection.query(
     `
     SELECT r.*, r."rentDate"::VARCHAR, row_to_json(g) as game, row_to_json(c) as customer FROM rentals r
@@ -14,7 +17,10 @@ async function getRentals({ customerId = null, gameId = null }) {
     JOIN (
       SELECT id, name FROM customers
     ) c ON r."customerId" = c.id
-  `
+    OFFSET $1
+    LIMIT $2
+  `,
+    [offset || OFFSET_DEFAULT, limit || LIMIT_DEFAULT]
   );
 
   const rentals =

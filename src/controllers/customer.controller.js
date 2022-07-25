@@ -9,10 +9,10 @@ import {
 import httpStatus from '../utils/httpStatus.js';
 
 async function index(req, res) {
-  const { cpf } = req.query;
+  const { cpf, offset, limit } = req.query;
 
   try {
-    const customers = await getAllCustomers({ cpf });
+    const customers = await getAllCustomers({ cpf, offset, limit });
 
     res.send(customers);
   } catch (error) {

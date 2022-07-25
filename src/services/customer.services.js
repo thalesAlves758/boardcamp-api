@@ -1,12 +1,17 @@
 import connection from '../config/database/pg.js';
 
-async function getAllCustomers({ cpf = '' }) {
+async function getAllCustomers({ cpf = '', offset, limit }) {
+  const OFFSET_DEFAULT = 0;
+  const LIMIT_DEFAULT = 1000;
+
   const { rows: customers } = await connection.query(
     `
     SELECT *, birthday::VARCHAR FROM customers
     WHERE cpf LIKE $1
+    OFFSET $2
+    LIMIT $3
   `,
-    [`${cpf}%`]
+    [`${cpf}%`, offset || OFFSET_DEFAULT, limit || LIMIT_DEFAULT]
   );
 
   return customers;

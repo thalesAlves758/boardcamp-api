@@ -1,9 +1,17 @@
 import connection from '../config/database/pg.js';
 
-async function getAllCategories() {
-  const { rows: categories } = await connection.query(`
+async function getAllCategories({ offset, limit }) {
+  const OFFSET_DEFAULT = 0;
+  const LIMIT_DEFAULT = 1000;
+
+  const { rows: categories } = await connection.query(
+    `
     SELECT * FROM categories
-  `);
+    OFFSET $1
+    LIMIT $2
+  `,
+    [offset || OFFSET_DEFAULT, limit || LIMIT_DEFAULT]
+  );
 
   return categories;
 }

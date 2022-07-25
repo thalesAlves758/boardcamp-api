@@ -7,8 +7,10 @@ import {
 import httpStatus from '../utils/httpStatus.js';
 
 async function index(req, res) {
+  const { offset, limit } = req.query;
+
   try {
-    const categories = await getAllCategories();
+    const categories = await getAllCategories({ offset, limit });
 
     res.send(categories);
   } catch (error) {

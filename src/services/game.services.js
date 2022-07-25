@@ -1,14 +1,19 @@
 import connection from '../config/database/pg.js';
 
-async function getAllGames({ name = '' }) {
+async function getAllGames({ name = '', offset, limit }) {
+  const OFFSET_DEFAULT = 0;
+  const LIMIT_DEFAULT = 1000;
+
   const { rows: games } = await connection.query(
     `
     SELECT g.*, c.name as "categoryName" FROM games g
     JOIN categories c
     ON g."categoryId" = c.id
     WHERE g.name ILIKE $1
+    OFFSET $2
+    LIMIT $3
   `,
-    [`${name}%`]
+    [`${name}%`, offset || OFFSET_DEFAULT, limit || LIMIT_DEFAULT]
   );
 
   return games;
