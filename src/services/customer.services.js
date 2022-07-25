@@ -3,7 +3,7 @@ import connection from '../config/database/pg.js';
 async function getAllCustomers({ cpf = '' }) {
   const { rows: customers } = await connection.query(
     `
-    SELECT * FROM customers
+    SELECT *, birthday::VARCHAR FROM customers
     WHERE cpf LIKE $1
   `,
     [`${cpf}%`]
@@ -17,7 +17,7 @@ async function getCustomerById(id) {
     rows: [customer],
   } = await connection.query(
     `
-    SELECT * FROM customers
+    SELECT *, birthday::VARCHAR FROM customers
     WHERE id = $1
   `,
     [id]
@@ -31,7 +31,7 @@ async function getCustomerByCpf(cpf) {
     rows: [customer],
   } = await connection.query(
     `
-    SELECT * FROM customers
+    SELECT *, birthday::VARCHAR FROM customers
     WHERE cpf = $1
   `,
     [cpf]

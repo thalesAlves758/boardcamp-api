@@ -5,7 +5,7 @@ import connection from '../config/database/pg.js';
 async function getRentals({ customerId = null, gameId = null }) {
   const { rows } = await connection.query(
     `
-    SELECT r.*, row_to_json(g) as game, row_to_json(c) as customer FROM rentals r
+    SELECT r.*, r."rentDate"::VARCHAR, row_to_json(g) as game, row_to_json(c) as customer FROM rentals r
     JOIN (
       SELECT games.id, games.name, games."categoryId", categories.name as "categoryName"
       FROM games
