@@ -46,4 +46,17 @@ async function getGameByName(name) {
   return game;
 }
 
-export { getAllGames, getGameByName, createGame };
+async function getGameById(id) {
+  const {
+    rows: [game],
+  } = await connection.query(
+    `
+    SELECT * FROM games WHERE id = $1
+  `,
+    [id]
+  );
+
+  return game;
+}
+
+export { getAllGames, getGameByName, createGame, getGameById };
